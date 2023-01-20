@@ -8,6 +8,13 @@ import { Grid } from '@mui/material';
 import ApplicationBar from './ApplicationBar';
 
   
+function a11yProps(index) {
+    return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`,
+    };
+}
+
 function Dashboard() {
     const navigate = useNavigate();
     const [value, setValue] = useState(0);
@@ -17,8 +24,9 @@ function Dashboard() {
     };
     
 
-    const handleTabClick = (tab) => {
-        navigate('/dashboard' + tab.url);
+    const handleTabClick = (e, tab, index) => {
+        setValue(index);
+        setTimeout(() => navigate('/dashboard' + tab.url), 0);
     }
     return <>
         <ApplicationBar></ApplicationBar>
@@ -34,7 +42,7 @@ function Dashboard() {
                 >
                 {
                     ApplicationTabs.map((tab, index) => {
-                        return <Tab icon={tab.icon} key={index} id={index} label={tab.label} onClick={() => handleTabClick(tab)} />
+                        return <Tab {...a11yProps(index)} icon={tab.icon} key={index} value={index} id={index} label={tab.label} onClick={(e) => handleTabClick(e, tab, index)} />
                     })
                 }
                 </Tabs>
