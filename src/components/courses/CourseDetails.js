@@ -1,4 +1,4 @@
-import { Avatar, Card, CardHeader, Grid, IconButton, Typography } from "@mui/material";
+import { Avatar, Button, Card, CardHeader, Grid, IconButton, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -7,6 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import CourseForm from './CourseForm';
 import { show } from "../../slices/DialogSlice";
 import StringUtils from "../../utils/StringUtils";
+import ExamForm from "../exams/ExamForm";
 
 function CourseDetails({course_id}) {
     const dispatch = useDispatch();
@@ -26,17 +27,27 @@ function CourseDetails({course_id}) {
         }))
     }
 
+    const handleAddExam = () => {
+        dispatch(show({
+            content: <ExamForm></ExamForm>,
+            title: 'Add new exam'
+        }))
+    }
+
     return <>
         <Card sx={{ minWidth: 345 }}>
             <CardHeader
                 style={{width: 'auto'}}
-                avatar={<Avatar>{StringUtils.getInitials(course.name)}</Avatar>}
+                avatar={<Avatar>{StringUtils.getInitials(course?.name)}</Avatar>}
                 title={course?.name}
                 subheader={course?.parent?.name}
                 action={
-                    <IconButton aria-label="settings">
-                      <EditIcon onClick={() => handleEdit()}/>
-                    </IconButton>
+                    <>
+                        <IconButton aria-label="settings">
+                            <EditIcon onClick={() => handleEdit()}/>
+                        </IconButton>
+                        <Button onClick={() => handleAddExam()}>Add Exam</Button>
+                    </>
                   }
             ></CardHeader>
         </Card>

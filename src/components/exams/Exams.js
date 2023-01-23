@@ -1,8 +1,10 @@
 import { Grid, Stack, Paper } from "@mui/material";
 import { styled } from '@mui/material/styles';
+import { Box } from "@mui/system";
 
 import CourseDetails from "../courses/CourseDetails";
 import Courses from "../courses/Courses";
+import ExamList from "./ExamList";
 
 function Exams() {
 
@@ -13,7 +15,9 @@ function Exams() {
             </Grid>
             <Grid xs={9}>
                 <CourseDetails></CourseDetails>
-                <h1>Exams</h1>
+                <Box mt={2}>
+                    <ExamList></ExamList>
+                </Box>
             </Grid>
         </Grid>
     </>
