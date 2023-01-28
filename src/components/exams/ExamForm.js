@@ -1,19 +1,26 @@
-import { Autocomplete, Box, Button, Container, TextField } from "@mui/material";
+import { Autocomplete, Box, Button, Container, Divider, Grid, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import { getCoursesList } from "../../slices/CourseSlice";
 import { hide } from "../../slices/DialogSlice";
-import { addExam, updateExam } from "../../slices/ExamSlice";
+import { addExam, getExam, updateExam } from "../../slices/ExamSlice";
+import QuestionForm from "./QuestionForm";
+import QuestionView from "./QuestionView";
 
 
-function MemberForm({exam}) {
+function ExamForm() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const params = useParams();
+    const [showQuestionForm, setShowQuestionForm] = useState(false);
     const course = useSelector(state => state.course.course);
     const courseList = useSelector(state => state.course.list);
+    const exam = useSelector(state => state.exam.exam);
     const [form, setForm] = useState({
         name: exam?.name || "",
         course_id: exam?.course_id || "",
-        course: exam?.parent || {}
+        course: exam?.course || null
     })
     const handleClose = () => {
         dispatch(hide());
@@ -21,7 +28,23 @@ function MemberForm({exam}) {
 
     useEffect(() => {
         dispatch(getCoursesList());
-    }, [])
+    }, [dispatch])
+
+    useEffect(() => {
+        if (params.exam_id === "new") {
+            
+        } else {
+            dispatch(getExam(params.exam_id));
+        }
+    }, [params])
+
+    useEffect(() => {
+        setForm({
+            name: exam?.name || "",
+            course_id: exam?.course_id || "",
+            course: exam?.course || null
+        });
+    }, [exam])
 
     const handleSave = () => {
         if (exam?._id) {
@@ -30,9 +53,10 @@ function MemberForm({exam}) {
                 _id: exam._id
             }));
         } else {
-            dispatch(addExam(form));
+            dispatch(addExam(form)).then((action) => {
+                navigate('/dashboard/exams/' + action.payload._id);
+            });
         }
-        dispatch(hide());
     }
 
     const handleFormChange = (e) => {
@@ -46,44 +70,63 @@ function MemberForm({exam}) {
     const handleCourseChange = (event, value) => {
         const form_values = {...form}
         const course = courseList.find(c => c.name === value);
-        setForm({
-            ...form_values,
-            course_id: course?._id,
-            course: course
-        })
+        setTimeout(() => {
+            setForm({
+                ...form_values,
+                course_id: course?._id,
+                course: course
+            })
+        }, 10);
     }
 
-    return <Container>
-        <TextField fullWidth label="Name" name="name" id="name" variant="outlined" margin="dense" value={form.name} onChange={(e) => handleFormChange(e)}/>
-        <Autocomplete
-            margin="dense" id="courses" sx={{ minWidth: 300 }} options={courseList || []}
-            getOptionLabel={(option) => option.name}
-            value={form.course || course}
-            onInputChange={(event, new_value) => handleCourseChange(event, new_value)}
-            renderInput={(params) => (
-                <TextField
-                  {...params}
-                  margin="dense"
-                  label="Select parent"
-                  inputProps={{
-                    ...params.inputProps
-                  }}
-                />
-              )}
-            renderOption={(props, option) => (
-                <Box id={option._id}  component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-                    {option.name}
-                </Box>
-            )}
-        ></Autocomplete>
+    const handleAddQuestion = () => {
+        setShowQuestionForm(true);
+    }
 
-        <div style={{textAlign: "end", paddingTop: '10px'}} margin="dense">
-            <Button onClick={handleSave} variant="outlined">Save</Button>&nbsp;&nbsp;
-            <Button onClick={handleClose} variant="outlined">Cancel</Button>
-        </div>
-        
-    </Container>
+    return <>
+        <Grid container m={2}>
+            <Grid xs={3} p={1}>
+                <TextField fullWidth label="Name" name="name" id="name" variant="outlined" margin="dense" value={form.name} onChange={(e) => handleFormChange(e)}/>
+                {courseList?.length > 0 &&
+                    <Autocomplete
+                        margin="dense" id="courses" options={courseList || []}
+                        getOptionLabel={(option) => option.name || ""}
+                        value={form.course || null}
+                        onInputChange={(event, new_value) => handleCourseChange(event, new_value)}
+                        renderInput={(params) => (
+                            <TextField
+                            {...params}
+                            margin="dense"
+                            label="Select parent"
+                            inputProps={{
+                                ...params.inputProps
+                            }}
+                            />
+                        )}
+                        renderOption={(props, option) => (
+                            <Box id={option._id}  component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+                                {option.name}
+                            </Box>
+                        )}
+                    ></Autocomplete>
+                }
+                <div style={{textAlign: "end", paddingTop: '10px'}} margin="dense">
+                    <Button onClick={handleSave} variant="outlined">Save</Button>&nbsp;&nbsp;
+                    <Button onClick={handleClose} variant="outlined">Cancel</Button>
+                </div>
+            </Grid>
+            
+            <Grid xs={9} p={1}>
+                {exam?.questions?.map((question, index) => {
+                    return <QuestionForm key={`${exam._id}_${question._id}`} exam={exam} question={question} index={index}></QuestionForm>
+                    // <QuestionView question={question} index={index}></QuestionView>
+                })}
+                {!showQuestionForm && exam?._id && <Button onClick={() => handleAddQuestion()}>Add Question</Button>}
+                {showQuestionForm && <QuestionForm exam={exam} index={exam?.questions?.length || 0}></QuestionForm>}
+            </Grid>
+        </Grid>
+    </>
 }
 
 
-export default MemberForm;
+export default ExamForm;

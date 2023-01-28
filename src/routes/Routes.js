@@ -5,6 +5,7 @@ import Login from '../components/auth/login/Login';
 import Register from '../components/auth/register/Register';
 import Home from '../components/home/Home';
 import Exams from '../components/exams/Exams';
+import ExamForm from '../components/exams/ExamForm';
 import Reports from '../components/reports/Reports';
 import Members from '../components/members/Members';
 import Admin from '../components/admin/Admin';
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
             {
                 path: 'exams',
                 element: <Exams></Exams>
+            },
+            {
+                path: 'exams/:exam_id',
+                element: <ExamForm></ExamForm>
             },
             {
                 path: 'exams/course/:course_id',

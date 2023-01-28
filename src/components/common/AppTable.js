@@ -26,6 +26,9 @@ function AppTable(props) {
             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
           >
             {props.columns.map(column => {
+              if (column.render) {
+                return column.render(row) 
+              }
               return <TableCell align="left">{row[column.field]}</TableCell>
             })}
           </TableRow>

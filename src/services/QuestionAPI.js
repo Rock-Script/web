@@ -1,30 +1,20 @@
 import axios from 'axios';
 
-class ExamAPI {
+class QuestionAPI {
 
     async getAll() {
         const config = {
-           url: 'http://localhost:3003/exams',
+           url: 'http://localhost:3003/questions',
            method: 'get'
         }
         const response = await axios(config);
         return response.data;
     }
 
-    async get(exam_id) {
-        const config = {
-           url: 'http://localhost:3003/exams/' + exam_id,
-           method: 'get'
-        }
-        const response = await axios(config);
-        return response.data;
-    }
-
-
-    async add(payload) {
+    async add(exam_id, payload) {
         payload.institute_id= "63ca7cc6bb01821e03345a9a";
         const config = {
-           url: 'http://localhost:3003/exams',
+           url: 'http://localhost:3003/questions/' + exam_id,
            method: 'post',
            data: payload
         }
@@ -35,8 +25,19 @@ class ExamAPI {
     async update(payload) {
         payload.institute_id= "63ca7cc6bb01821e03345a9a";
         const config = {
-           url: 'http://localhost:3003/exams/' + payload._id,
+           url: 'http://localhost:3003/questions/' + payload.exam_id + "/" + payload._id,
            method: 'patch',
+           data: payload
+        }
+        const response = await axios(config);
+        return response.data;
+    }
+
+    async delete(payload) {
+        payload.institute_id= "63ca7cc6bb01821e03345a9a";
+        const config = {
+           url: 'http://localhost:3003/questions/' + payload.exam_id + "/" + payload._id,
+           method: 'delete',
            data: payload
         }
         const response = await axios(config);
@@ -45,4 +46,4 @@ class ExamAPI {
 
 }
 
-export default new ExamAPI();
+export default new QuestionAPI();

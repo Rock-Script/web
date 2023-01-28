@@ -1,7 +1,7 @@
 import { Avatar, Button, Card, CardHeader, Grid, IconButton, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getCourse } from "../../slices/CourseSlice";
 import EditIcon from '@mui/icons-material/Edit';
 import CourseForm from './CourseForm';
@@ -11,6 +11,7 @@ import ExamForm from "../exams/ExamForm";
 
 function CourseDetails({course_id}) {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const params = useParams();
 
     const course = useSelector(state => state.course.course);
@@ -28,10 +29,7 @@ function CourseDetails({course_id}) {
     }
 
     const handleAddExam = () => {
-        dispatch(show({
-            content: <ExamForm></ExamForm>,
-            title: 'Add new exam'
-        }))
+        navigate('/dashboard/exams/new');
     }
 
     return <>
