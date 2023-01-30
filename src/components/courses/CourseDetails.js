@@ -1,4 +1,4 @@
-import { Avatar, Button, Card, CardHeader, Grid, IconButton, Typography } from "@mui/material";
+import { Avatar, Box, Button, Card, CardHeader, Grid, IconButton, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -40,12 +40,12 @@ function CourseDetails({course_id}) {
                 title={course?.name}
                 subheader={course?.parent?.name}
                 action={
-                    <>
-                        <IconButton aria-label="settings">
-                            <EditIcon onClick={() => handleEdit()}/>
+                    <Box>
+                        <IconButton aria-label="edit_course" onClick={() => handleEdit()}>
+                            <EditIcon/>
                         </IconButton>
                         <Button onClick={() => handleAddExam()}>Add Exam</Button>
-                    </>
+                    </Box>
                   }
             ></CardHeader>
         </Card>

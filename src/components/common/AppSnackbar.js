@@ -12,13 +12,13 @@ function AppSnackbar() {
     const handleClose = () => {
         dispatch(hide());
     }
-    return <div>
-        <Snackbar open={show} autoHideDuration={6000} onClose={handleClose}>
-            {show && <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
-                {message}
-            </Alert>}
-        </Snackbar>
-    </div>
+
+    if (!show) return null;
+    return <Snackbar open={show} autoHideDuration={4000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity={severity || null} sx={{ width: '100%' }}>
+                {message || ""}
+            </Alert>
+        </Snackbar>;
 }
 
 export default AppSnackbar;

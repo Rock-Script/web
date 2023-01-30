@@ -114,8 +114,8 @@ function QuestionForm({exam, question, index}) {
                     onChange={(e) => handleQuestionTypeChange(e)}
                     name="type"
                 >
-                    {QuestionTypes.map(question_type => {
-                        return <MenuItem key={question_type} value={question_type.value}>{question_type.label}</MenuItem>
+                    {QuestionTypes.map((question_type, index) => {
+                        return <MenuItem key={`question_type_${index}_${exam._id}_${question._id}`} value={question_type.value}>{question_type.label}</MenuItem>
                     })}
                 </Select>
             </FormControl>
@@ -126,6 +126,7 @@ function QuestionForm({exam, question, index}) {
             <Stack mt={2} spacing={2} sx={{display: 'row', alignItems: 'flex-start'}}>
                 {form?.options?.map((option, index) => {
                     return <TextField placeholder={`Option ${index+1}`} label={`Option ${index+1}`} 
+                        key={`option_${index}_${exam._id}_${question._id}`}
                         value={option} mt={1} onChange={e => handleOptionChange(e, index)}
                         InputProps={{
                             endAdornment: (

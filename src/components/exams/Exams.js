@@ -10,10 +10,10 @@ function Exams() {
 
     return <>
         <Grid container>
-            <Grid xs={3}>
+            <Grid item xs={3}>
                 <Courses></Courses>
             </Grid>
-            <Grid xs={9}>
+            <Grid item xs={9}>
                 <CourseDetails></CourseDetails>
                 <Box mt={2}>
                     <ExamList></ExamList>

@@ -8,12 +8,12 @@ function ApplicationBar() {
     return <AppBar position="static">
         <Toolbar>
           <Grid container>
-            <Grid xs={6}>
+            <Grid item xs={6}>
                 <Typography align="left">
                     QuestAns
                 </Typography>
             </Grid>
-            <Grid xs={6}>
+            <Grid item xs={6}>
                 <Typography align="right">
                     User
                 </Typography>

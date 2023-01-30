@@ -36,10 +36,10 @@ function Login() {
                             <TextField id="password" label="Password" variant="outlined" type="password"/>
                             <Button variant="contained" onClick={() => handleLogin()}>Login</Button>
                             <Grid container>
-                                <Grid xs={6}>
+                                <Grid item xs={6}>
                                     <Link href="#" onClick={() => handleRegister()}>Register</Link>
                                 </Grid>
-                                <Grid xs={6}>
+                                <Grid item xs={6}>
                                     <Link href="#" onClick={() => handleForgotPassword()}>Forgot password</Link>
                                 </Grid>
                             </Grid>

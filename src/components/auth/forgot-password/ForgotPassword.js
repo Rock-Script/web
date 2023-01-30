@@ -31,10 +31,10 @@ function ForgotPassword() {
                             <TextField id="email" label="Email" variant="outlined" />
                             <Button variant="contained">Submit</Button>
                             <Grid container>
-                                <Grid xs={6}>
+                                <Grid item xs={6}>
                                     <Link href="#" onClick={() => handleLogin()}>Login</Link>
                                 </Grid>
-                                <Grid xs={6}>
+                                <Grid item xs={6}>
                                     <Link href="#" onClick={() => handleRegister()}>Register</Link>
                                 </Grid>
                             </Grid>

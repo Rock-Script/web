@@ -1,10 +1,12 @@
+import * as _ from 'lodash';
 import axios from 'axios';
 
 class ExamAPI {
 
-    async getAll() {
+    async getAll(payload) {
+        const query_params = _.keys(payload).map(k => `${k}=${payload[k]}`);
         const config = {
-           url: 'http://localhost:3003/exams',
+           url: `http://localhost:3003/exams?${query_params}`,
            method: 'get'
         }
         const response = await axios(config);

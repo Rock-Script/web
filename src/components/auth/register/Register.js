@@ -35,10 +35,10 @@ function Register() {
                             <TextField id="password" label="Confirm Password" variant="outlined" type="password"/>
                             <Button variant="contained">Register</Button>
                             <Grid container>
-                                <Grid xs={6}>
+                                <Grid item xs={6}>
                                     <Link href="#" onClick={() => handleLogin()}>Login</Link>
                                 </Grid>
-                                <Grid xs={6}>
+                                <Grid item xs={6}>
                                     <Link href="#" onClick={() => handleForgotPassword()}>Forgot password</Link>
                                 </Grid>
                             </Grid>

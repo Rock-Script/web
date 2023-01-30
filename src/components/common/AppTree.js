@@ -3,12 +3,6 @@ import Box from '@mui/material/Box';
 import TreeView from '@mui/lab/TreeView';
 import Typography from '@mui/material/Typography';
 import LabelIcon from '@mui/icons-material/Label';
-import DeleteIcon from '@mui/icons-material/Delete';
-import Label from '@mui/icons-material/Label';
-import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
-import InfoIcon from '@mui/icons-material/Info';
-import ForumIcon from '@mui/icons-material/Forum';
-import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import TreeItem, { treeItemClasses } from '@mui/lab/TreeItem';
@@ -84,10 +78,10 @@ const StyledTreeItemRoot = styled(TreeItem)(({ theme }) => ({
 
 function getItem(item, handleItemClick) {
     
-    return <StyledTreeItem nodeId={item._id} labelText={item.name} labelIcon={LabelIcon} handleItemClick={handleItemClick}>
+    return <StyledTreeItem nodeId={item._id} key={item._id} labelText={item.name} labelIcon={LabelIcon} handleItemClick={handleItemClick}>
         {
             (item.children?.length > 0) && item.children.map(c => {
-                return <StyledTreeItem nodeId={c._id} labelText={c.name} labelIcon={LabelIcon} handleItemClick={handleItemClick}></StyledTreeItem>
+                return <StyledTreeItem nodeId={c._id} key={c._id} labelText={c.name} labelIcon={LabelIcon} handleItemClick={handleItemClick}></StyledTreeItem>
             })
         }
     </StyledTreeItem>

@@ -31,7 +31,7 @@ function Dashboard() {
     return <>
         <ApplicationBar></ApplicationBar>
         <Grid container>
-            <Grid xs={1}>
+            <Grid item xs={1}>
                 <Tabs
                     orientation="vertical"
                     variant="scrollable"
@@ -42,12 +42,12 @@ function Dashboard() {
                 >
                 {
                     ApplicationTabs.map((tab, index) => {
-                        return <Tab {...a11yProps(index)} icon={tab.icon} key={index} value={index} id={index} label={tab.label} onClick={(e) => handleTabClick(e, tab, index)} />
+                        return <Tab {...a11yProps(index)} icon={tab.icon} key={`app_tab_${index}`} value={index} id={index} label={tab.label} onClick={(e) => handleTabClick(e, tab, index)} />
                     })
                 }
                 </Tabs>
             </Grid>
-            <Grid xs={11}>
+            <Grid item xs={11}>
                 <Outlet />
             </Grid>
         </Grid>

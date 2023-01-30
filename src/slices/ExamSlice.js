@@ -2,8 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import ExamAPI from "../services/ExamAPI ";
 
 export const getExams = createAsyncThunk("member/getExams", async(payload, thunkAPI) => {
-    console.log('member slice get members')
-    const data = await ExamAPI.getAll();
+    const data = await ExamAPI.getAll(payload);
     return data?.data || [];
 });
 
@@ -19,7 +18,6 @@ export const addExam = createAsyncThunk("member/addExam", async(payload, thunkAP
 });
 
 export const updateExam = createAsyncThunk("member/updateExam", async(payload, thunkAPI) => {
-    console.log('member slice get members')
     const data = await ExamAPI.update(payload);
     return data?.data || [];
 });

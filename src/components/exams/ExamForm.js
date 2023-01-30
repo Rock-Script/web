@@ -14,7 +14,6 @@ function ExamForm() {
     const navigate = useNavigate();
     const params = useParams();
     const [showQuestionForm, setShowQuestionForm] = useState(false);
-    const course = useSelector(state => state.course.course);
     const courseList = useSelector(state => state.course.list);
     const exam = useSelector(state => state.exam.exam);
     const [form, setForm] = useState({
@@ -85,7 +84,8 @@ function ExamForm() {
 
     return <>
         <Grid container m={2}>
-            <Grid xs={3} p={1}>
+            {JSON.stringify(form.course)}
+            <Grid item xs={3} p={1}>
                 <TextField fullWidth label="Name" name="name" id="name" variant="outlined" margin="dense" value={form.name} onChange={(e) => handleFormChange(e)}/>
                 {courseList?.length > 0 &&
                     <Autocomplete
@@ -93,6 +93,7 @@ function ExamForm() {
                         getOptionLabel={(option) => option.name || ""}
                         value={form.course || null}
                         onInputChange={(event, new_value) => handleCourseChange(event, new_value)}
+                        isOptionEqualToValue={(option, value) => option._id === value._id}
                         renderInput={(params) => (
                             <TextField
                             {...params}
@@ -116,10 +117,9 @@ function ExamForm() {
                 </div>
             </Grid>
             
-            <Grid xs={9} p={1}>
+            <Grid item xs={9} p={1}>
                 {exam?.questions?.map((question, index) => {
-                    return <QuestionForm key={`${exam._id}_${question._id}`} exam={exam} question={question} index={index}></QuestionForm>
-                    // <QuestionView question={question} index={index}></QuestionView>
+                    return <QuestionForm key={`question_${index}_${exam._id}_${question._id}`} exam={exam} question={question} index={index}></QuestionForm>
                 })}
                 {!showQuestionForm && exam?._id && <Button onClick={() => handleAddQuestion()}>Add Question</Button>}
                 {showQuestionForm && <QuestionForm exam={exam} index={exam?.questions?.length || 0}></QuestionForm>}

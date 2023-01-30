@@ -3,15 +3,13 @@ import AppTable from "../common/AppTable";
 import { getExams } from '../../slices/ExamSlice';
 import { useEffect } from "react";
 import { Button, Typography } from "@mui/material";
-import { show } from "../../slices/DialogSlice";
-import ExamForm from "./ExamForm";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function getColumns(handleEditExam) {
     return [
         { label: 'Name', field: 'name', type: 'string' },
         { label: 'Actions', field: 'actions', type: 'string', render: (row) => {
-            return <Button mt={2} onClick={() => handleEditExam(row)}>Edit</Button>
+            return <Button key={`edit_${row._id}`} mt={2} onClick={() => handleEditExam(row)}>Edit</Button>
         } },
     ]
 }
@@ -19,12 +17,15 @@ function getColumns(handleEditExam) {
 function ExamList() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const params = useParams();
     const examList = useSelector(state => state.exam.list);
 
     useEffect(() => {
-        console.log('exam useeffect')
-        dispatch(getExams());
-    }, [dispatch]);
+        console.log("params ===> ", params);
+        const payload = {};
+        if (params.course_id) payload.course_ids = [ params.course_id ];
+        dispatch(getExams(payload));
+    }, [dispatch, params]);
 
     const handleEditExam = (exam) => {
         navigate('/dashboard/exams/' + exam._id);

@@ -13,23 +13,23 @@ function AppTable(props) {
       <TableHead>
         <TableRow>
           {
-            props.columns.map(column => {
-              return <TableCell>{column.label}</TableCell>
+            props.columns.map((column, index) => {
+              return <TableCell key={`app_table_${index}`}>{column.label}</TableCell>
             })
           }
         </TableRow>
       </TableHead>
       <TableBody>
-        {props.data.map((row) => (
+        {props.data.map((row, index) => (
           <TableRow
-            key={row._id}
+          key={`app_table_row_${index}`}
             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
           >
-            {props.columns.map(column => {
+            {props.columns.map((column, index) => {
               if (column.render) {
                 return column.render(row) 
               }
-              return <TableCell align="left">{row[column.field]}</TableCell>
+              return <TableCell key={`app_table_cell_${index}`} align="left">{row[column.field]}</TableCell>
             })}
           </TableRow>
         ))}
