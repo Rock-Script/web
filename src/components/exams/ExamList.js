@@ -11,6 +11,7 @@ function getColumns(handleEditExam) {
         { label: 'Actions', field: 'actions', type: 'string', render: (row) => {
             return <TableCell>
                 <Button key={`edit_${row._id}`} mt={2} onClick={() => handleEditExam(row)}>Edit</Button>
+                <Button key={`edit_${row._id}`} mt={2} onClick={() => handleEditExam(row)}>Solve</Button>
             </TableCell>
         } },
     ]

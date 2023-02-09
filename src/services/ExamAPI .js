@@ -45,6 +45,17 @@ class ExamAPI {
         return response.data;
     }
 
+    async publish(payload) {
+        payload.institute_id= "63ca7cc6bb01821e03345a9a";
+        const config = {
+           url: 'http://localhost:3003/exams/' + payload._id + '/publish',
+           method: 'post',
+           data: payload
+        }
+        const response = await axios(config);
+        return response.data;
+    }
+
 }
 
 export default new ExamAPI();

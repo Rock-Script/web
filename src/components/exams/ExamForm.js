@@ -1,10 +1,10 @@
-import { Autocomplete, Box, Button, Container, Divider, Grid, TextField } from "@mui/material";
+import { Autocomplete, Box, Button, Container, Divider, Grid, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { getCoursesList } from "../../slices/CourseSlice";
 import { hide } from "../../slices/DialogSlice";
-import { addExam, clearExam, getExam, updateExam } from "../../slices/ExamSlice";
+import { addExam, clearExam, getExam, publishExam, updateExam } from "../../slices/ExamSlice";
 import QuestionForm from "./QuestionForm";
 
 
@@ -73,6 +73,10 @@ function ExamForm() {
         }
     }
 
+    const handlePublish = () => {
+        dispatch(publishExam({_id: exam._id}));
+    }
+
     const handleFormChange = (e) => {
         const form_values = {...form}
         setForm({
@@ -130,8 +134,12 @@ function ExamForm() {
                         )}
                     ></Autocomplete>
                 }
+                <TextField fullWidth label="Version" name="version" id="version" variant="outlined" margin="dense" value={exam?.version || 0} disabled/>
                 <div style={{textAlign: "end", paddingTop: '10px'}} margin="dense">
                     <Button onClick={handleSave} variant="outlined">Save</Button>&nbsp;&nbsp;
+                    {exam?._id && <>
+                        <Button onClick={handlePublish} variant="outlined">Publish</Button>&nbsp;&nbsp;
+                    </>}
                     <Button onClick={handleClose} variant="outlined">Cancel</Button>
                 </div>
             </Grid>

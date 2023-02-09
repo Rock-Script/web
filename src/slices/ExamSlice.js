@@ -1,29 +1,34 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import ExamAPI from "../services/ExamAPI ";
 
-export const getExams = createAsyncThunk("member/getExams", async(payload, thunkAPI) => {
+export const getExams = createAsyncThunk("exam/getExams", async(payload, thunkAPI) => {
     const data = await ExamAPI.getAll(payload);
     return data?.data || [];
 });
 
-export const getExam = createAsyncThunk("member/getExam", async(exam_id, thunkAPI) => {
+export const getExam = createAsyncThunk("exam/getExam", async(exam_id, thunkAPI) => {
     const data = await ExamAPI.get(exam_id);
     return data?.data || [];
 });
 
-export const addExam = createAsyncThunk("member/addExam", async(payload, thunkAPI) => {
-    console.log('member slice get members')
+export const addExam = createAsyncThunk("exam/addExam", async(payload, thunkAPI) => {
+    console.log('exam slice get exams')
     const data = await ExamAPI.add(payload);
     return data?.data || [];
 });
 
-export const updateExam = createAsyncThunk("member/updateExam", async(payload, thunkAPI) => {
+export const updateExam = createAsyncThunk("exam/updateExam", async(payload, thunkAPI) => {
     const data = await ExamAPI.update(payload);
     return data?.data || [];
 });
 
+export const publishExam = createAsyncThunk("exam/publishExam", async(payload, thunkAPI) => {
+    const data = await ExamAPI.publish(payload);
+    return data?.data || [];
+});
+
 const ExamSlice = createSlice({
-    name: 'member',
+    name: 'exam',
     initialState: {
         list: [],
         exam: null
@@ -33,6 +38,9 @@ const ExamSlice = createSlice({
             state.list = action.payload;
         },
         [getExam.fulfilled](state, action) {
+            state.exam = action.payload;
+        },
+        [publishExam.fulfilled](state, action) {
             state.exam = action.payload;
         }
     },
