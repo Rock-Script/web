@@ -6,14 +6,15 @@ import { hide } from "../../slices/DialogSlice";
 import { addMember, updateMember } from "../../slices/MemberSlice";
 
 
-function MemberForm({employee: member}) {
+function MemberForm({member}) {
     const dispatch = useDispatch();
     const [form, setForm] = useState({
         first_name: member?.first_name || "",
         last_name: member?.last_name || "",
         address: member?.address || "",
         phone: member?.phone || "",
-        courses: member?.courses || []
+        courses: member?.courses || [],
+        email: member?.email || ""
     })
     const courseList = useSelector(state => state.course.list);
 
@@ -68,7 +69,7 @@ function MemberForm({employee: member}) {
                 multiple
                 margin="dense" id="courses" options={courseList || []}
                 getOptionLabel={(option) => option.name || ""}
-                // value={form.courses || []}
+                value={form.courses || []}
                 onChange={(event, new_value) => handleCourseChange(event, new_value)}
                 isOptionEqualToValue={(option, value) => option._id === value._id}
                 renderInput={(params) => (
