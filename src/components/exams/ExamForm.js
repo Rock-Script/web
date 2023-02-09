@@ -4,9 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { getCoursesList } from "../../slices/CourseSlice";
 import { hide } from "../../slices/DialogSlice";
-import { addExam, getExam, updateExam } from "../../slices/ExamSlice";
+import { addExam, clearExam, getExam, updateExam } from "../../slices/ExamSlice";
 import QuestionForm from "./QuestionForm";
-import QuestionView from "./QuestionView";
 
 
 function ExamForm() {
@@ -22,8 +21,23 @@ function ExamForm() {
         course: exam?.course || null
     })
     const handleClose = () => {
-        dispatch(hide());
+        navigate('/dashboard/exams');
     }
+
+    const clearForm = () => {
+        setForm({
+            name: "",
+            course_id: "",
+            course: null
+        })
+    }
+
+    useEffect(() => {
+        return () => {
+            clearForm();
+            dispatch(clearExam());
+        };
+      }, []);
 
     useEffect(() => {
         dispatch(getCoursesList());
@@ -31,7 +45,8 @@ function ExamForm() {
 
     useEffect(() => {
         if (params.exam_id === "new") {
-            
+            clearForm();
+            dispatch(clearExam());
         } else {
             dispatch(getExam(params.exam_id));
         }
@@ -82,9 +97,13 @@ function ExamForm() {
         setShowQuestionForm(true);
     }
 
+    const postQuestionSave = (q) => {
+        exam.questions.push(q);
+        setShowQuestionForm(false);
+    }
+
     return <>
         <Grid container m={2}>
-            {JSON.stringify(form.course)}
             <Grid item xs={3} p={1}>
                 <TextField fullWidth label="Name" name="name" id="name" variant="outlined" margin="dense" value={form.name} onChange={(e) => handleFormChange(e)}/>
                 {courseList?.length > 0 &&
@@ -122,7 +141,7 @@ function ExamForm() {
                     return <QuestionForm key={`question_${index}_${exam._id}_${question._id}`} exam={exam} question={question} index={index}></QuestionForm>
                 })}
                 {!showQuestionForm && exam?._id && <Button onClick={() => handleAddQuestion()}>Add Question</Button>}
-                {showQuestionForm && <QuestionForm exam={exam} index={exam?.questions?.length || 0}></QuestionForm>}
+                {showQuestionForm && <QuestionForm exam={exam} index={exam?.questions?.length || 0} postQuestionSave={(q) => postQuestionSave(q)}></QuestionForm>}
             </Grid>
         </Grid>
     </>

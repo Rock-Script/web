@@ -2,14 +2,16 @@ import { useDispatch, useSelector } from "react-redux";
 import AppTable from "../common/AppTable";
 import { getExams } from '../../slices/ExamSlice';
 import { useEffect } from "react";
-import { Button, Typography } from "@mui/material";
+import { Button, TableCell, Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 
 function getColumns(handleEditExam) {
     return [
         { label: 'Name', field: 'name', type: 'string' },
         { label: 'Actions', field: 'actions', type: 'string', render: (row) => {
-            return <Button key={`edit_${row._id}`} mt={2} onClick={() => handleEditExam(row)}>Edit</Button>
+            return <TableCell>
+                <Button key={`edit_${row._id}`} mt={2} onClick={() => handleEditExam(row)}>Edit</Button>
+            </TableCell>
         } },
     ]
 }

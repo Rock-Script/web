@@ -12,7 +12,12 @@ const store = configureStore({
         member: MemberSlice,
         course: CourseSlice,
         exam: ExamSlice
-    }
+    },
+    devTools: true
 });
+
+const unsubscribe = store.subscribe((data) =>
+  console.log('State after dispatch: ', store.getState(), JSON.stringify(data))
+)
 
 export default store;

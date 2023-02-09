@@ -5,16 +5,20 @@ import { RouterProvider } from 'react-router';
 import Routes from './routes/Routes';
 import AppDialog from './components/common/AppDialog';
 import AppSnackbar from './components/common/AppSnackbar';
+import { ThemeProvider } from '@mui/material';
+import AppTheme from './theme/AppTheme';
 
 function App() {
   return (
-    <div className="App">
-      <Provider store={Store}>
-        <RouterProvider router={Routes}></RouterProvider>
-        <AppDialog></AppDialog>
-        <AppSnackbar></AppSnackbar>
-      </Provider>
-    </div>
+    <ThemeProvider theme={AppTheme}>
+      <div className="App">
+        <Provider store={Store}>
+          <RouterProvider router={Routes}></RouterProvider>
+          <AppDialog></AppDialog>
+          <AppSnackbar></AppSnackbar>
+        </Provider>
+      </div>
+    </ThemeProvider>
   );
 }
 

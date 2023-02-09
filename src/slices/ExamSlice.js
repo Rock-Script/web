@@ -35,9 +35,14 @@ const ExamSlice = createSlice({
         [getExam.fulfilled](state, action) {
             state.exam = action.payload;
         }
+    },
+    reducers: {
+        clearExam(state, action) {
+            state.exam = null;
+        }
     }
 });
 
-// export const { show, hide } = ExamSlice.actions;
+export const { clearExam } = ExamSlice.actions;
 
 export default ExamSlice.reducer;
