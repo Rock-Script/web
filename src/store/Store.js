@@ -3,6 +3,7 @@ import DialogSlice from "../slices/DialogSlice";
 import MemberSlice from "../slices/MemberSlice";
 import CourseSlice from "../slices/CourseSlice";
 import ExamSlice from "../slices/ExamSlice";
+import ExamLogSlice from "../slices/ExamLogSlice";
 import SnackbarSlice from "../slices/SnackbarSlice";
 
 const store = configureStore({
@@ -11,7 +12,8 @@ const store = configureStore({
         snackbar: SnackbarSlice,
         member: MemberSlice,
         course: CourseSlice,
-        exam: ExamSlice
+        exam: ExamSlice,
+        exam_log: ExamLogSlice
     },
     devTools: true
 });

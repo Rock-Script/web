@@ -9,6 +9,7 @@ import ExamForm from '../components/exams/ExamForm';
 import Reports from '../components/reports/Reports';
 import Members from '../components/members/Members';
 import Admin from '../components/admin/Admin';
+import ExamLogForm from '../components/exam-logs/ExamLogForm';
 
 const router = createBrowserRouter([
     {
@@ -42,6 +43,14 @@ const router = createBrowserRouter([
             {
                 path: 'exams',
                 element: <Exams></Exams>
+            },
+            {
+                path: 'exam-log/:exam_log_id',
+                element: <ExamLogForm></ExamLogForm>
+            },
+            {
+                path: 'exam-log/:exam_id/:exam_log_id',
+                element: <ExamLogForm></ExamLogForm>
             },
             {
                 path: 'exams/:exam_id',
