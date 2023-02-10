@@ -148,8 +148,8 @@ function ExamForm() {
                 {exam?.questions?.map((question, index) => {
                     return <QuestionForm key={`question_${index}_${exam._id}_${question._id}`} exam={exam} question={question} index={index}></QuestionForm>
                 })}
-                {!showQuestionForm && exam?._id && <Button onClick={() => handleAddQuestion()}>Add Question</Button>}
                 {showQuestionForm && <QuestionForm exam={exam} index={exam?.questions?.length || 0} postQuestionSave={(q) => postQuestionSave(q)}></QuestionForm>}
+                <Button onClick={() => handleAddQuestion()}>Add Question</Button>
             </Grid>
         </Grid>
     </>

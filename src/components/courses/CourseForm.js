@@ -1,8 +1,8 @@
 import { Autocomplete, Button, Container, TextField } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { hide } from "../../slices/DialogSlice";
-import { addCourse, updateCourse } from "../../slices/CourseSlice";
+import { addCourse, getCoursesList, updateCourse } from "../../slices/CourseSlice";
 import { Box } from "@mui/system";
 
 
@@ -14,9 +14,15 @@ function MemberForm({course}) {
         parent_id: course?.parent_id || "",
         parent: course?.parent || {}
     })
+
+    useEffect(() => {
+        dispatch(getCoursesList())
+    }, [])
+
     const handleClose = () => {
         dispatch(hide());
     }
+
 
     const handleSave = () => {
         if (course?._id) {

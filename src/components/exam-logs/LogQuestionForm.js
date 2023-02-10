@@ -4,9 +4,10 @@ import { useDispatch } from "react-redux";
 import { updateQuestion } from "../../slices/QuestionSlice";
 import { QuestionTypeValues } from "../../constants/QuestionTypes";
 import { isArray } from 'lodash';
+import { saveAnswer } from "../../slices/ExamLogSlice";
 
 
-function LogQuestionForm({exam, question, index}) {
+function LogQuestionForm({exam_log, question, index}) {
     const dispatch = useDispatch();
 
     const [form, setForm] = useState({
@@ -14,7 +15,7 @@ function LogQuestionForm({exam, question, index}) {
         name: question?.name || "",
         type: question?.type || "",
         options: question?.options || [],
-        answer: question?.answer || null
+        user_answer: question?.user_answer || null
     });
 
     const handleFormChange = (e, type) => {
@@ -38,19 +39,20 @@ function LogQuestionForm({exam, question, index}) {
         setForm({
             ...form_values,
             [e.target.name]: e.target.value,
-            answer: new_answer,
+            user_answer: new_answer,
             options
         })
     }
 
-    const handleSaveQuestion = () => {
+    const handleSaveAnswer = () => {
         if (form?._id) {
-            dispatch(updateQuestion({
-                _id: form._id,
+            dispatch(saveAnswer({
+                question_id: form._id,
                 ...form,
-                exam_id: exam?._id
+                answer: form.user_answer,
+                exam_log_id: exam_log?._id
             })).then((action) => {
-                setForm(action.payload);
+                if (action.payload) setForm(action.payload);
             })
         }
     }
@@ -68,24 +70,23 @@ function LogQuestionForm({exam, question, index}) {
             </Grid>
         </Grid>
         
-        <Grid item xs={6} mt={1}>
+        <Box mt={2}  sx={{ display: 'flex', flexDirection: 'row', p: 1, m: 1, bgcolor: 'background.paper' }}>
             {(form.type === QuestionTypeValues.TEXT) &&
                 <TextField fullWidth label="Text answer" name="answer" id="answer" type="text"
-                    variant="outlined" margin="dense" value={form.answer} onChange={(e) => handleFormChange(e)}
+                    variant="outlined" margin="dense" value={form.user_answer} onChange={(e) => handleFormChange(e)}
                 />
             }
             {(form.type === QuestionTypeValues.NUMBER) &&
                 <TextField fullWidth label="Numeric answer" name="answer" id="answer" type="number"
-                    variant="outlined" margin="dense" value={form.answer} onChange={(e) => handleFormChange(e)}
+                    variant="outlined" margin="dense" value={form.user_answer} onChange={(e) => handleFormChange(e)}
                 />
             }
             {(form.type === QuestionTypeValues.SINGLE_SELECT) &&
                 <FormControl>
-                    <FormLabel id="demo-radio-buttons-group-label">Single select answer</FormLabel>
                     <RadioGroup
                         aria-labelledby="demo-radio-buttons-group-label"
                         name="answer"
-                        value={form.answer}
+                        value={form.user_answer}
                         onChange={e => handleFormChange(e)}
                     >
                     {form?.options?.map((option, index) => {
@@ -106,10 +107,10 @@ function LogQuestionForm({exam, question, index}) {
                     })}
                 </FormControl>
             }
-        </Grid>
+        </Box>
 
-        <Box mt={2}  sx={{ display: 'flex', flexDirection: 'row-reverse', p: 1, m: 1, bgcolor: 'background.paper' }}>
-            <Button variant="contained" size="small" onClick={() => handleSaveQuestion()}>Save question</Button>
+        <Box mt={2}  sx={{ display: 'flex', flexDirection: 'row', p: 1, m: 1, bgcolor: 'background.paper' }}>
+            <Button variant="contained" size="small" onClick={() => handleSaveAnswer()}>Save answer</Button>
         </Box>
     </Box>
 }
