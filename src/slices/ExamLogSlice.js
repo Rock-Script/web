@@ -25,6 +25,11 @@ export const saveAnswer = createAsyncThunk("exam_log/saveAnswer", async(payload,
     }
 });
 
+export const submitExamLog = createAsyncThunk("exam_log/submitExamLog", async(payload, thunkAPI) => {
+    const data = await ExamLogAPI.submit(payload);
+    return data?.data || {};
+});
+
 const ExamLogSlice = createSlice({
     name: 'exam_log',
     initialState: {

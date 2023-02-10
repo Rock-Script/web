@@ -3,13 +3,15 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateQuestion } from "../../slices/QuestionSlice";
 import { QuestionTypeValues } from "../../constants/QuestionTypes";
+import EXAM_LOG_STATUS from "../../constants/ExamLogStatus";
 import { isArray } from 'lodash';
 import { saveAnswer } from "../../slices/ExamLogSlice";
-
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import Close from '@mui/icons-material/Close';
 
 function LogQuestionForm({exam_log, question, index}) {
     const dispatch = useDispatch();
-
+    const [disabled, setDisable] = useState(exam_log.status === EXAM_LOG_STATUS.COMPLETED)
     const [form, setForm] = useState({
         _id: question?._id || null,
         name: question?.name || "",
@@ -72,12 +74,12 @@ function LogQuestionForm({exam_log, question, index}) {
         
         <Box mt={2}  sx={{ display: 'flex', flexDirection: 'row', p: 1, m: 1, bgcolor: 'background.paper' }}>
             {(form.type === QuestionTypeValues.TEXT) &&
-                <TextField fullWidth label="Text answer" name="answer" id="answer" type="text"
+                <TextField fullWidth label="Text answer" name="answer" id="answer" type="text" disabled={disabled}
                     variant="outlined" margin="dense" value={form.user_answer} onChange={(e) => handleFormChange(e)}
                 />
             }
             {(form.type === QuestionTypeValues.NUMBER) &&
-                <TextField fullWidth label="Numeric answer" name="answer" id="answer" type="number"
+                <TextField fullWidth label="Numeric answer" name="answer" id="answer" type="number" disabled={disabled}
                     variant="outlined" margin="dense" value={form.user_answer} onChange={(e) => handleFormChange(e)}
                 />
             }
@@ -88,9 +90,10 @@ function LogQuestionForm({exam_log, question, index}) {
                         name="answer"
                         value={form.user_answer}
                         onChange={e => handleFormChange(e)}
+                        disabled={disabled}
                     >
                     {form?.options?.map((option, index) => {
-                        return <FormControlLabel value={option} control={<Radio />} label={option} />
+                        return <FormControlLabel value={option} control={<Radio disabled={disabled} />} label={option} />
                     })}
                     </RadioGroup>
                 </FormControl>
@@ -101,8 +104,8 @@ function LogQuestionForm({exam_log, question, index}) {
                     {form?.options?.map((option, index) => {
                         let checked = false;
                         if (isArray(form.answer) && (form.answer || []).indexOf(option) > -1) checked = true;
-                        return <FormControlLabel checked={checked} name="answer" value={option} control={<Checkbox />} label={option} 
-                            onChange={e => handleFormChange(e, 'checkbox')}
+                        return <FormControlLabel checked={checked} name="answer" value={option} control={<Checkbox disabled={disabled} />} label={option} 
+                            onChange={e => handleFormChange(e, 'checkbox')} disabled={disabled}
                         />
                     })}
                 </FormControl>
@@ -110,8 +113,21 @@ function LogQuestionForm({exam_log, question, index}) {
         </Box>
 
         <Box mt={2}  sx={{ display: 'flex', flexDirection: 'row', p: 1, m: 1, bgcolor: 'background.paper' }}>
-            <Button variant="contained" size="small" onClick={() => handleSaveAnswer()}>Save answer</Button>
+            {!disabled &&<Button variant="contained" size="small" onClick={() => handleSaveAnswer()}>Save answer</Button>}
         </Box>
+
+        {disabled && <>
+            {(question.answer === question.user_answer) &&
+                <Typography align="left" sx={{color: 'success.main'}}>
+                    <CheckCircleOutlineIcon></CheckCircleOutlineIcon> Your answer is correct
+                </Typography>
+            }
+            {(question.answer != question.user_answer) &&
+                <Typography align="left" sx={{color: 'error.main'}}>
+                    <Close></Close> Your answer is incorrect, correct answer is <b>{question.answer}</b>
+                </Typography>
+            }
+        </>}
     </Box>
 }
 
