@@ -3,15 +3,15 @@ import { Box } from "@mui/system";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { hide } from "../../../slices/DialogSlice";
-import { addRole } from "../../../slices/RoleSlice";
+import { addRole, updateRole } from "../../../slices/RoleSlice";
 
 
-function RoleForm() {
+function RoleForm({role}) {
     const dispatch = useDispatch();
-    const privileges = useSelector(state => state.role.previleges_list);
+    const privileges = useSelector(state => state.role.previlege_list);
     const [form, setForm] = useState({
-        name: "",
-        previleges: []
+        name: role?.name || "",
+        previleges: role?.previleges || []
     });
 
     const handleFormChange = (e) => {
@@ -23,12 +23,13 @@ function RoleForm() {
         };
         
         if (e.target.name === "previleges") {
-            if (form_values.previleges.indexOf(e.target.value) > -1) {
-                form_values.previleges.splice(form_values.previleges.indexOf(e.target.value), 1);
+            const new_previleges = [ ...(form_values.previleges || []) ];
+            if (new_previleges.indexOf(e.target.value) > -1) {
+                new_previleges.splice(new_previleges.indexOf(e.target.value), 1);
             } else {
-                form_values.previleges.push(e.target.value);
+                new_previleges.push(e.target.value);
             }
-            new_form[e.target.name] = form_values.previleges;
+            new_form[e.target.name] = new_previleges;
         }
         
         setForm(new_form)
@@ -40,7 +41,14 @@ function RoleForm() {
 
 
     const handleSave = () => {
-        dispatch(addRole(form));
+        if (role?._id) {
+            dispatch(updateRole({
+                role_id: role?._id,
+                ...form
+            }))
+        } else {
+            dispatch(addRole(form));
+        }
     }
 
     return <Box>

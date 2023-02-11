@@ -5,10 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { show } from "../../../slices/DialogSlice";
 import { getAllPrivileges } from "../../../slices/RoleSlice";
 import RoleForm from "./RoleForm";
+import RoleList from "./RoleList";
 
 function Role() {
     const dispatch = useDispatch();
-    const privileges = useSelector(state => state.role.previleges_list);
     useEffect(() => {
         dispatch(getAllPrivileges());
     }, []);
@@ -21,9 +21,11 @@ function Role() {
     }
 
     return <>
-        Roles {privileges?.length}
-        <Box align="right">
+        <Box align="right" m={1}>
             <Button onClick={() => handleAddRole()}>Add role</Button>
+        </Box>
+        <Box m={1}>
+            <RoleList></RoleList>
         </Box>
     </>
 }
