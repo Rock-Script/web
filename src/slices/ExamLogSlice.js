@@ -13,6 +13,11 @@ export const getExamLog = createAsyncThunk("exam_log/getExamLog", async(payload,
     return data?.data || {};
 });
 
+export const getExamLogs = createAsyncThunk("exam_log/getExamLogs", async(payload, thunkAPI) => {
+    const data = await ExamLogAPI.list(payload);
+    return data?.data || {};
+});
+
 export const saveAnswer = createAsyncThunk("exam_log/saveAnswer", async(payload, thunkAPI) => {
     try {
         const data = await ExamLogAPI.saveAnswer(payload);
@@ -33,13 +38,20 @@ export const submitExamLog = createAsyncThunk("exam_log/submitExamLog", async(pa
 const ExamLogSlice = createSlice({
     name: 'exam_log',
     initialState: {
-        exam_log: null
+        exam_log: null,
+        exam_log_list: []
     },
     extraReducers: {
         [addExamLog.fulfilled](state, action) {
             state.exam_log = action.payload;
         },
         [getExamLog.fulfilled](state, action) {
+            state.exam_log = action.payload;
+        },
+        [getExamLogs.fulfilled](state, action) {
+            state.exam_log_list = action.payload
+        },
+        [submitExamLog.fulfilled](state, action) {
             state.exam_log = action.payload;
         }
     },

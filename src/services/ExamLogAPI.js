@@ -14,6 +14,18 @@ class ExamLogAPI {
         return response.data;
     }
 
+    async list(payload={}) {
+        payload.institute_id = "63ca7cc6bb01821e03345a9a";
+        const queryString = _.keys(payload).map(k => `${k}=${payload[k]}`).join('&');
+        const config = {
+           url: `http://localhost:3003/exam_logs?${queryString}`,
+           method: 'get',
+           data: payload
+        }
+        const response = await axios(config);
+        return response.data;
+    }
+
     async get(payload) {
         payload.institute_id= "63ca7cc6bb01821e03345a9a";
         const config = {

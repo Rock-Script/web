@@ -15,7 +15,8 @@ function QuestionForm({exam, question, index, postQuestionSave}) {
         name: question?.name || "",
         type: question?.type || "",
         options: question?.options || [],
-        answer: question?.answer || null
+        answer: question?.answer || null,
+        weightage: question?.weightage || 0
     });
 
     const handleFormChange = (e, type) => {
@@ -26,22 +27,25 @@ function QuestionForm({exam, question, index, postQuestionSave}) {
                 options = ["", ""];
         };
 
-        let new_answer = form_values.answer ? [...form_values.answer] : [];
-        if (type === "checkbox") {
-            if (e.target.checked) {
-                new_answer.push(e.target.value)
-            } else {
-                new_answer.splice(new_answer.indexOf(e.target.value), 1);
-            }
-        } else {
-            new_answer = e.target.value;
-        }
-        setForm({
+        const new_form = {
             ...form_values,
             [e.target.name]: e.target.value,
-            answer: new_answer,
             options
-        })
+        };
+        if (e.target.name === "answer") {
+            let new_answer = form_values.answer ? [...form_values.answer] : [];
+            if (type === "checkbox") {
+                if (e.target.checked) {
+                    new_answer.push(e.target.value)
+                } else {
+                    new_answer.splice(new_answer.indexOf(e.target.value), 1);
+                }
+            } else {
+                new_answer = e.target.value;
+            }
+            new_form.answer = new_answer;
+        }
+        setForm(new_form)
     }
 
     const handleQuestionTypeChange = (e) => {
@@ -105,16 +109,25 @@ function QuestionForm({exam, question, index, postQuestionSave}) {
 
     return <Box m={2} p={1}>
         {/* {JSON.stringify(form)} */}
-        <TextField fullWidth label="Statement" name="name" id="name" 
-            variant="outlined" margin="dense" value={form.name} onChange={(e) => handleFormChange(e)}
-            InputProps={{
-                startAdornment:(
-                    <InputAdornment position="start">
-                        <Box sx={{ bgcolor: 'info.main', color: 'info.contrastText' }} p={1}>{index+1}</Box>
-                  </InputAdornment>  
-                )
-            }}
-        />
+        <Grid container>
+            <Grid item xs={10}>
+                <TextField fullWidth label="Statement" name="name" id="name" 
+                    variant="outlined" margin="dense" value={form.name} onChange={(e) => handleFormChange(e)}
+                    InputProps={{
+                        startAdornment:(
+                            <InputAdornment position="start">
+                                <Box sx={{ bgcolor: 'info.main', color: 'info.contrastText' }} p={1}>{index+1}</Box>
+                        </InputAdornment>  
+                        )
+                    }}
+                />
+            </Grid>
+            <Grid item xs={2} pl={1}>
+                <TextField fullWidth label="Weightage" name="weightage" id="weightage" type="number"
+                    variant="outlined" margin="dense" value={form.weightage} onChange={(e) => handleFormChange(e)}
+                />
+            </Grid>
+        </Grid>
         
         <Grid container>
             <Grid item xs={6}>

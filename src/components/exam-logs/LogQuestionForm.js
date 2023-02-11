@@ -65,9 +65,14 @@ function LogQuestionForm({exam_log, question, index}) {
             <Grid item>
                 <Box sx={{ bgcolor: 'info.main', color: 'info.contrastText', width:'10px' }} p={1}>{index+1}</Box>
             </Grid>
-            <Grid item>
+            <Grid item xs={11}>
                 <Typography variant="subtitle1" align="left" pl={1} mt={0.5}>
                     {question?.name}
+                </Typography>
+            </Grid>
+            <Grid item>
+                <Typography variant="subtitle1" align="right" pl={1} mt={0.5}>
+                    {question?.weightage}
                 </Typography>
             </Grid>
         </Grid>

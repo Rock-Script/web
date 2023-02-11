@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Button, Container, Divider, Grid, TextField, Typography } from "@mui/material";
+import { Autocomplete, Box, Button, Grid, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -134,6 +134,7 @@ function ExamForm() {
                         )}
                     ></Autocomplete>
                 }
+                <TextField fullWidth label="Weightage" name="weightage" id="weightage" variant="outlined" margin="dense" value={exam?.weightage || 0} disabled/>
                 <TextField fullWidth label="Version" name="version" id="version" variant="outlined" margin="dense" value={exam?.version || 0} disabled/>
                 <div style={{textAlign: "end", paddingTop: '10px'}} margin="dense">
                     <Button onClick={handleSave} variant="outlined">Save</Button>&nbsp;&nbsp;

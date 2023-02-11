@@ -13,7 +13,7 @@ function AppDialog() {
         dispatch(hide());
     }
     return <div>
-        <Dialog open={show} onClose={handleClose}>
+        <Dialog open={show} onClose={handleClose} maxWidth>
             <DialogTitle>{title}</DialogTitle>
             <DialogContent>
                 {content}
