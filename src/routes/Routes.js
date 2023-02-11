@@ -10,6 +10,7 @@ import Reports from '../components/reports/Reports';
 import Members from '../components/members/Members';
 import Admin from '../components/admin/Admin';
 import ExamLogForm from '../components/exam-logs/ExamLogForm';
+import Role from '../components/admin/Role/Role';
 
 const router = createBrowserRouter([
     {
@@ -66,8 +67,14 @@ const router = createBrowserRouter([
             },
             {
                 path: 'admin',
-                element: <Admin></Admin>
-            }
+                element: <Admin></Admin>,
+                children: [
+                    {
+                        path: 'role',
+                        element: <Role></Role>
+                    }
+                ]
+            },
         ]
     }
 ]);

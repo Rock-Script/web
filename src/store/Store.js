@@ -5,6 +5,7 @@ import CourseSlice from "../slices/CourseSlice";
 import ExamSlice from "../slices/ExamSlice";
 import ExamLogSlice from "../slices/ExamLogSlice";
 import SnackbarSlice from "../slices/SnackbarSlice";
+import RoleSlice from "../slices/RoleSlice";
 
 const store = configureStore({
     reducer: {
@@ -13,12 +14,13 @@ const store = configureStore({
         member: MemberSlice,
         course: CourseSlice,
         exam: ExamSlice,
-        exam_log: ExamLogSlice
+        exam_log: ExamLogSlice,
+        role: RoleSlice
     },
     devTools: true
 });
 
-const unsubscribe = store.subscribe((data) =>
+store.subscribe((data) =>
   console.log('State after dispatch: ', store.getState(), JSON.stringify(data))
 )
 
