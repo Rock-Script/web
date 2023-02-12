@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCoursesList } from "../../slices/CourseSlice";
 import { hide } from "../../slices/DialogSlice";
 import { addMember, updateMember } from "../../slices/MemberSlice";
+import { getAllRoles } from "../../slices/RoleSlice";
 
 
 function MemberForm({member}) {
@@ -13,13 +14,13 @@ function MemberForm({member}) {
         last_name: member?.last_name || "",
         address: member?.address || "",
         phone: member?.phone || "",
-        courses: member?.courses || [],
+        role: member?.role || {},
         email: member?.email || ""
     })
-    const courseList = useSelector(state => state.course.list);
+    const roleList = useSelector(state => state.role.role_list);
 
     useEffect(() => {
-        dispatch(getCoursesList());
+        dispatch(getAllRoles());
     }, [dispatch])
 
     const handleClose = () => {
@@ -46,14 +47,14 @@ function MemberForm({member}) {
         })
     }
 
-    const handleCourseChange = (event, value) => {
+    const handleRoleChange = (event, value) => {
         const form_values = {...form}
-        const courses = value;
+        const role = value;
         setTimeout(() => {
             setForm({
                 ...form_values,
-                course_ids: courses.map(c => c._id),
-                courses: courses
+                role_id: role._id,
+                role: role
             })
         }, 10);
     }
@@ -64,19 +65,18 @@ function MemberForm({member}) {
         <TextField fullWidth label="Address"  name="address" id="address" variant="outlined" margin="dense" value={form.address}  onChange={(e) => handleFormChange(e)}/>
         <TextField fullWidth label="Phone"  name="phone" id="phone" variant="outlined" margin="dense" value={form.phone}  onChange={(e) => handleFormChange(e)}/>
         <TextField fullWidth label="Email"  name="email" id="email" variant="outlined" margin="dense" value={form.email}  onChange={(e) => handleFormChange(e)}/>
-        {courseList?.length > 0 &&
+        {roleList?.length > 0 &&
             <Autocomplete
-                multiple
-                margin="dense" id="courses" options={courseList || []}
+                margin="dense" id="roles" options={roleList || []}
                 getOptionLabel={(option) => option.name || ""}
-                value={form.courses || []}
-                onChange={(event, new_value) => handleCourseChange(event, new_value)}
+                value={form.role || []}
+                onChange={(event, new_value) => handleRoleChange(event, new_value)}
                 isOptionEqualToValue={(option, value) => option._id === value._id}
                 renderInput={(params) => (
                     <TextField
                     {...params}
                     margin="dense"
-                    label="Select parent"
+                    label="Select role"
                     inputProps={{
                         ...params.inputProps
                     }}

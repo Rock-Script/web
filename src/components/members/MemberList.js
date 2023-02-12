@@ -10,10 +10,10 @@ function getColumns(handleEdit) {
     return [
         { label: 'First Name', field: 'first_name', type: 'string' },
         { label: 'Last Name', field: 'last_name', type: 'string' },
-        { label: 'Courses', field: 'courses', type: 'string',
+        { label: 'Role', field: 'role', type: 'string',
             render: (row) => {
                 return <TableCell>
-                    {row.courses.map(c => c.name).join(", ")}
+                    {row.role.name}
                 </TableCell>
             }
         },
