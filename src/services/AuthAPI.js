@@ -13,6 +13,17 @@ class AuthAPI {
         return response.data;
     }
 
+    async loginWithRefreshToken(payload) {
+        const config = {
+           url: `http://localhost:3005/auth/login/refresh_token`,
+           method: 'post',
+           data: payload
+        }
+        const response = await axios(config);
+        return response.data;
+    }
+
+
     async register(payload) {
         const config = {
            url: `http://localhost:3005/auth/register`,

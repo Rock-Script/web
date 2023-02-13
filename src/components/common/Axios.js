@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { show } from "../slices/SnackbarSlice";
-import AlertSeverities from "../constants/AlertSeverities";
+import { show } from "../../slices/SnackbarSlice";
+import AlertSeverities from "../../constants/AlertSeverities";
 
 const setupInteceptors = (dispatch) => {
     // Add a request interceptor
@@ -17,13 +17,22 @@ const setupInteceptors = (dispatch) => {
     // Add a response interceptor
     axios.interceptors.response.use(function (response) {
         // Do something with response data
+        const data = response.data;
+        if (data.status === 200 || data.status === 201) {
+            dispatch(show({
+                message: data.message,
+                severity: AlertSeverities.SUCCESS
+            }));
+        }
         return response;
     }, function (error) {
         // Do something with response error
-        dispatch(show({
-            message: error?.response?.data?.message || 'Error occured in application',
-            severity: AlertSeverities.ERROR
-        }))
+        if (error?.response?.data?.message) {
+            dispatch(show({
+                message: error?.response?.data?.message,
+                severity: AlertSeverities.ERROR
+            }))
+        }
         return Promise.reject(error);
     });
 }
@@ -35,7 +44,6 @@ function Axios(props) {
         setupInteceptors(dispatch);
     }, [dispatch]);
     return <>
-        
         {props.children}
     </>
 }

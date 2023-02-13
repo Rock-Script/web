@@ -3,7 +3,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { Grid, Stack, Button, TextField, Link, Typography } from '@mui/material';
 import { useNavigate } from "react-router-dom";
-import { login } from '../../../slices/AuthSlice';
+import { login, loginWithRefreshToken } from '../../../slices/AuthSlice';
 import { useEffect, useState } from 'react';
 
 function Login() {
@@ -14,6 +14,12 @@ function Login() {
         email: "",
         password: ""
     })
+
+    useEffect(() => {
+        if (localStorage.getItem('refresh_token')) {
+            dispatch(loginWithRefreshToken());
+        }
+    }, [])
 
     useEffect(() => {
         if (user) {

@@ -7,15 +7,18 @@ import AppDialog from './components/common/AppDialog';
 import AppSnackbar from './components/common/AppSnackbar';
 import { ThemeProvider } from '@mui/material';
 import AppTheme from './theme/AppTheme';
+import Axios from './components/common/Axios';
 
 function App() {
   return (
     <ThemeProvider theme={AppTheme}>
       <div className="App">
         <Provider store={Store}>
-          <RouterProvider router={Routes}></RouterProvider>
-          <AppDialog></AppDialog>
-          <AppSnackbar></AppSnackbar>
+          <Axios>
+            <RouterProvider router={Routes}></RouterProvider>
+            <AppDialog></AppDialog>
+            <AppSnackbar></AppSnackbar>
+          </Axios>
         </Provider>
       </div>
     </ThemeProvider>

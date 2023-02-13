@@ -6,6 +6,8 @@ import { Outlet, useNavigate } from 'react-router';
 import { useState } from 'react';
 import { Grid } from '@mui/material';
 import ApplicationBar from './ApplicationBar';
+import { useSelector } from 'react-redux';
+import Login from '../auth/login/Login';
 
   
 function a11yProps(index) {
@@ -18,6 +20,7 @@ function a11yProps(index) {
 function Dashboard() {
     const navigate = useNavigate();
     const [value, setValue] = useState(0);
+    const user = useSelector(state => state.auth.user);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -28,6 +31,11 @@ function Dashboard() {
         setValue(index);
         setTimeout(() => navigate('/dashboard' + tab.url), 0);
     }
+
+    if(!user)  {
+        return <Login></Login>
+    }
+    
     return <>
         <ApplicationBar></ApplicationBar>
         <Grid container>
@@ -48,7 +56,7 @@ function Dashboard() {
                 </Tabs>
             </Grid>
             <Grid item xs={11}>
-                <Outlet />
+                {user && <Outlet />}
             </Grid>
         </Grid>
     </>
