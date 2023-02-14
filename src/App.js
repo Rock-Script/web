@@ -10,6 +10,7 @@ import AppTheme from './theme/AppTheme';
 import Axios from './components/common/Axios';
 
 function App() {
+  localStorage.setItem('institute_id', '63ca7cc6bb01821e03345a9a');
   return (
     <ThemeProvider theme={AppTheme}>
       <div className="App">

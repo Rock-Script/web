@@ -7,17 +7,17 @@ import CheckCircle from "@mui/icons-material/CheckCircle"
 import { show } from "../../../slices/DialogSlice";
 import RoleForm from "./RoleForm";
 
-function getColumns(previleges, handleEditRole) {
+function getColumns(privileges, handleEditRole) {
     return [
         { label: 'Name', field: 'name', type: 'string' },
-        { label: 'Previleges',
+        { label: 'privileges',
             render: (row) => {
                 return <TableCell>
                     <Grid container>
                     {
-                        previleges.map(p => {
+                        privileges.map(p => {
                             return <Grid item xs={3}>
-                                    <Checkbox checked={row.previleges.indexOf(p._id) > -1} disabled></Checkbox>{p.name}
+                                    <Checkbox checked={row.privileges.indexOf(p._id) > -1} disabled></Checkbox>{p.name}
                                 </Grid>
                         })
                     }
@@ -36,7 +36,7 @@ function getColumns(previleges, handleEditRole) {
 function RoleList() {
     const dispatch = useDispatch();
     const roles = useSelector(state => state.role.role_list);
-    const previleges = useSelector(state => state.role.previlege_list);
+    const privileges = useSelector(state => state.role.privilege_list);
 
     useEffect(() => {
         dispatch(getAllRoles());
@@ -50,8 +50,8 @@ function RoleList() {
     }
 
     return <>
-        {previleges?.length > 0 && 
-            <AppTable columns={getColumns(previleges, handleEditRole)} data={roles}></AppTable>
+        {privileges?.length > 0 && 
+            <AppTable columns={getColumns(privileges, handleEditRole)} data={roles}></AppTable>
         }
     </>;
 }

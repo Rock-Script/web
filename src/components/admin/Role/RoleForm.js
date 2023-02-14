@@ -8,10 +8,10 @@ import { addRole, updateRole } from "../../../slices/RoleSlice";
 
 function RoleForm({role}) {
     const dispatch = useDispatch();
-    const privileges = useSelector(state => state.role.previlege_list);
+    const privileges = useSelector(state => state.role.privilege_list);
     const [form, setForm] = useState({
         name: role?.name || "",
-        previleges: role?.previleges || []
+        privileges: role?.privileges || []
     });
 
     const handleFormChange = (e) => {
@@ -22,14 +22,14 @@ function RoleForm({role}) {
             [e.target.name]: e.target.value
         };
         
-        if (e.target.name === "previleges") {
-            const new_previleges = [ ...(form_values.previleges || []) ];
-            if (new_previleges.indexOf(e.target.value) > -1) {
-                new_previleges.splice(new_previleges.indexOf(e.target.value), 1);
+        if (e.target.name === "privileges") {
+            const new_privileges = [ ...(form_values.privileges || []) ];
+            if (new_privileges.indexOf(e.target.value) > -1) {
+                new_privileges.splice(new_privileges.indexOf(e.target.value), 1);
             } else {
-                new_previleges.push(e.target.value);
+                new_privileges.push(e.target.value);
             }
-            new_form[e.target.name] = new_previleges;
+            new_form[e.target.name] = new_privileges;
         }
         
         setForm(new_form)
@@ -60,9 +60,9 @@ function RoleForm({role}) {
         <FormControl>
             <Grid container>
             {privileges?.map((privilege, index) => {
-                let checked = form.previleges.indexOf(privilege._id) > -1;
+                let checked = form.privileges.indexOf(privilege._id) > -1;
                 return <Grid item xs={3}> 
-                    <FormControlLabel key={privilege._id} checked={checked} name="previleges" value={privilege._id} control={<Checkbox />} label={privilege.name} 
+                    <FormControlLabel key={privilege._id} checked={checked} name="privileges" value={privilege._id} control={<Checkbox />} label={privilege.name} 
                         onChange={e => handleFormChange(e)}
                     />
                 </Grid>

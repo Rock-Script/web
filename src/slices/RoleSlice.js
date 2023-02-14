@@ -43,13 +43,21 @@ export const updateRole = createAsyncThunk("role/updateRole", async(payload, thu
 const RoleSlice = createSlice({
     name: 'role',
     initialState: {
-        previlege_list: [],
+        privilege_list: [],
         role_list: [],
         role: null
     },
     extraReducers: {
         [getAllPrivileges.fulfilled](state, action) {
-            state.previlege_list = action.payload;
+            state.privilege_list = action.payload;
+            const privilege_id_map = {};
+            const privilege_map = {};
+            state.privilege_list.forEach(privilege => {
+                privilege_id_map[privilege._id] = privilege;
+                privilege_map[privilege.privilege] = privilege;
+            }); 
+            state.privilege_id_map = privilege_id_map;
+            state.privilege_map = privilege_map;
         },
         [addRole.fulfilled](state, action) {
             state.role = action.payload;

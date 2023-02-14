@@ -1,12 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AuthAPI from "../services/AuthAPI";
-import { show } from "./SnackbarSlice";
-import AlertSeverities from "../constants/AlertSeverities";
+import { getAllPrivileges } from "./RoleSlice";
 
 export const login = createAsyncThunk("auth/login", async(payload, thunkAPI) => {
     const data = await AuthAPI.login(payload);
-    localStorage.setItem('access_token', data.data.access_token);
-    localStorage.setItem('refresh_token', data.data.refresh_token);
+    setTokens(data, thunkAPI.dispatch);
     return data?.data || {}
 });
 
@@ -14,8 +12,7 @@ export const loginWithRefreshToken = createAsyncThunk("auth/loginWithRefreshToke
     const data = await AuthAPI.loginWithRefreshToken({
         refresh_token: localStorage.getItem('refresh_token')
     });
-    localStorage.setItem('access_token', data.data.access_token);
-    localStorage.setItem('refresh_token', data.data.refresh_token);
+    setTokens(data, thunkAPI.dispatch);
     return data?.data || {}
 });
 
@@ -24,6 +21,20 @@ export const register = createAsyncThunk("auth/register", async(payload, thunkAP
     return data?.data || {}
 });
 
+const setUser = (state, action) => {
+    state.user = action.payload;
+    state.member = (action.payload.members || []).find(m => m.institute_id === localStorage.getItem('institute_id'))
+    if (state.member && action.payload.members[0]) {
+        state.member = action.payload.members[0];
+    }
+}
+
+const setTokens = (data, dispatch) => {
+    localStorage.setItem('access_token', data.data.access_token);
+    localStorage.setItem('refresh_token', data.data.refresh_token);
+    dispatch(getAllPrivileges());
+}
+
 const AuthSlice = createSlice({
     name: 'auth',
     initialState: {
@@ -31,10 +42,10 @@ const AuthSlice = createSlice({
     },
     extraReducers: {
         [login.fulfilled](state, action) {
-            state.user = action.payload;
+            setUser(state, action); 
         },
         [loginWithRefreshToken.fulfilled](state, action) {
-            state.user = action.payload;
+            setUser(state, action);
         }
     },
     reducers: {

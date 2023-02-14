@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { Avatar, Grid, Menu, MenuItem } from '@mui/material';
+import { Avatar, Box, Divider, Grid, Menu, MenuItem, Stack } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import StringUtils from '../../utils/StringUtils';
 import { useState } from 'react';
@@ -12,6 +12,7 @@ function ApplicationBar() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector(state => state.auth.user);
+    const member = useSelector(state => state.auth.member);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -31,7 +32,7 @@ function ApplicationBar() {
 
     return <AppBar position="static">
         <Toolbar>
-          <Grid container   justifyContent="space-between">
+          <Grid container justifyContent="space-between">
             <Grid item>
                 <Typography align="left">
                     QuestAns
@@ -51,8 +52,18 @@ function ApplicationBar() {
                             'aria-labelledby': 'basic-button'
                         }}
                     >
-                        <MenuItem onClick={handleClose}>Profile</MenuItem>
-                        <MenuItem onClick={handleClose}>My account</MenuItem>
+                        <Stack spacing={1} mb={2}>
+                            <Box pl={1} pr={1}>
+                                {StringUtils.capitalize(user.first_name)} {StringUtils.capitalize(user.last_name)}
+                            </Box>
+                            <Box pl={1} pr={1}>
+                                {user.email}
+                            </Box>
+                            <Box pl={1} pr={1}>
+                                {member?.role?.name}
+                            </Box>
+                        </Stack>
+                        <Divider></Divider>
                         <MenuItem onClick={handleLogout}>Logout</MenuItem>
                     </Menu>
                 </Typography>
