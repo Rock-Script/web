@@ -2,10 +2,12 @@ import * as _ from 'lodash';
 import axios from 'axios';
 
 class AuthAPI {
-
+    
+    base_url;
+    
     async login(payload) {
         const config = {
-           url: `http://localhost:3005/auth/login`,
+           url: `${this.base_url}/auth/login`,
            method: 'post',
            data: payload
         }
@@ -15,7 +17,7 @@ class AuthAPI {
 
     async loginWithRefreshToken(payload) {
         const config = {
-           url: `http://localhost:3005/auth/login/refresh_token`,
+           url: `${this.base_url}/auth/login/refresh_token`,
            method: 'post',
            data: payload
         }
@@ -26,7 +28,7 @@ class AuthAPI {
 
     async register(payload) {
         const config = {
-           url: `http://localhost:3005/auth/register`,
+           url: `${this.base_url}/auth/register`,
            method: 'post',
            data: payload
         }

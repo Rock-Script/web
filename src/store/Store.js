@@ -7,6 +7,7 @@ import ExamLogSlice from "../slices/ExamLogSlice";
 import SnackbarSlice from "../slices/SnackbarSlice";
 import RoleSlice from "../slices/RoleSlice";
 import AuthSlice from "../slices/AuthSlice";
+import ConfigSlice from "../slices/ConfigSlice";
 
 const store = configureStore({
     reducer: {
@@ -17,7 +18,8 @@ const store = configureStore({
         exam: ExamSlice,
         exam_log: ExamLogSlice,
         role: RoleSlice,
-        auth: AuthSlice
+        auth: AuthSlice,
+        config: ConfigSlice
     },
     devTools: true
 });

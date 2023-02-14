@@ -3,9 +3,11 @@ import * as _ from 'lodash';
 
 class RoleAPI {
 
+    base_url;
+
     async getAllPrivileges() {
         const config = {
-           url: 'http://localhost:3005/roles/privileges',
+           url: `${this.base_url}/roles/privileges`,
            method: 'get'
         }
         const response = await axios(config);
@@ -14,7 +16,7 @@ class RoleAPI {
 
     async getAllRoles() {
         const config = {
-            url: 'http://localhost:3005/roles',
+            url: `${this.base_url}/roles`,
             method: 'get'
          }
          const response = await axios(config);
@@ -24,7 +26,7 @@ class RoleAPI {
     async addRole(payload) {
         payload.institute_id= "63ca7cc6bb01821e03345a9a";
         const config = {
-           url: 'http://localhost:3005/roles',
+           url: `${this.base_url}/roles`,
            method: 'post',
            data: payload
         }
@@ -35,7 +37,7 @@ class RoleAPI {
     async updateRole(payload) {
         payload.institute_id= "63ca7cc6bb01821e03345a9a";
         const config = {
-           url: `http://localhost:3005/roles/${payload.role_id}`,
+           url: `${this.base_url}/roles/${payload.role_id}`,
            method: 'patch',
            data: payload
         }

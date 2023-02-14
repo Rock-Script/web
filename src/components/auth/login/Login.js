@@ -16,9 +16,7 @@ function Login() {
     })
 
     useEffect(() => {
-        if (localStorage.getItem('refresh_token')) {
-            dispatch(loginWithRefreshToken());
-        }
+        
     }, [])
 
     useEffect(() => {

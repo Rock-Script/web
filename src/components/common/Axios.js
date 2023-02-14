@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { show } from "../../slices/SnackbarSlice";
 import AlertSeverities from "../../constants/AlertSeverities";
+import { getMicroservices } from "../../slices/ConfigSlice";
 
 const setupInteceptors = (dispatch) => {
     // Add a request interceptor
@@ -42,6 +43,7 @@ function Axios(props) {
     const dispatch = useDispatch();
     useEffect(() => {
         setupInteceptors(dispatch);
+        dispatch(getMicroservices());
     }, [dispatch]);
     return <>
         {props.children}
