@@ -36,6 +36,16 @@ class AuthAPI {
         return response.data;
     }
 
+    async verifyEmail(payload) {
+        const config = {
+           url: `${this.base_url}/auth/verify_email`,
+           method: 'post',
+           data: payload
+        }
+        const response = await axios(config);
+        return response.data;
+    }
+
 }
 
 export default new AuthAPI();

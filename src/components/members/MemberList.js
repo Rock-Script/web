@@ -13,7 +13,7 @@ function getColumns(handleEdit) {
         { label: 'Role', field: 'role', type: 'string',
             render: (row) => {
                 return <TableCell>
-                    {row.role.name}
+                    {row.role?.name}
                 </TableCell>
             }
         },

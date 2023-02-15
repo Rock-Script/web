@@ -11,6 +11,8 @@ import Members from '../components/members/Members';
 import Admin from '../components/admin/Admin';
 import ExamLogForm from '../components/exam-logs/ExamLogForm';
 import Role from '../components/admin/Role/Role';
+import RouteError from '../components/route/RouteError';
+import EmailVerify from '../components/auth/email-verify/EmailVerify';
 
 const router = createBrowserRouter([
     {
@@ -30,8 +32,13 @@ const router = createBrowserRouter([
         element: <ForgotPassword></ForgotPassword>
     },
     {
+        path: '/signup_verify',
+        element: <EmailVerify></EmailVerify>
+    },
+    {
         path: '/dashboard',
         element: <Dashboard></Dashboard>,
+        errorElement: <RouteError></RouteError>,
         children: [
             {
                 path: 'home',
