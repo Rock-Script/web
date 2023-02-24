@@ -4,10 +4,12 @@ import Tab from '@mui/material/Tab';
 import ApplicationTabs from '../../constants/ApplicationTabs';
 import { Outlet, useNavigate } from 'react-router';
 import { useState } from 'react';
-import { Grid } from '@mui/material';
+import { Button, Grid, Typography } from '@mui/material';
 import ApplicationBar from './ApplicationBar';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Login from '../auth/login/Login';
+import { Box } from '@mui/system';
+import { resendVerificationEmail } from '../../slices/AuthSlice';
 
   
 function a11yProps(index) {
@@ -19,23 +21,19 @@ function a11yProps(index) {
 
 function Dashboard() {
     const navigate = useNavigate();
+    const dispatch = useDispatch(); 
     const [value, setValue] = useState(0);
     const user = useSelector(state => state.auth.user);
-
+    
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
     
-
     const handleTabClick = (e, tab, index) => {
         setValue(index);
         setTimeout(() => navigate('/dashboard' + tab.url), 0);
     }
 
-    if(!user)  {
-        return <Login></Login>
-    }
-    
     return <>
         <ApplicationBar></ApplicationBar>
         <Grid container>

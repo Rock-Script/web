@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { verifyEmail } from "../../../slices/AuthSlice";
+import LocalStorageUtils from "../../../utils/LocalStorageUtils";
 
 function EmailVerify() {
     const dispatch = useDispatch();
@@ -18,6 +19,10 @@ function EmailVerify() {
     const _id = new URLSearchParams(search).get("_id"); 
 
     useEffect(() => {
+        LocalStorageUtils.clear();
+    }, []);
+
+    useEffect(() => {
         if (token && email && _id && microservices?.auth) {
             email = email.replaceAll(" ", "+");
             dispatch(verifyEmail({token, email, _id}));
@@ -27,6 +32,11 @@ function EmailVerify() {
     const handleLogin = () => {
         navigate('/login')
     }
+
+    if (user && user.email_verified) {
+        navigate('/login');
+    }
+
     return <>
         {user?.email_verified && 
             <>

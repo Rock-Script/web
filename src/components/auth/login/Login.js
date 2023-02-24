@@ -20,7 +20,7 @@ function Login() {
     }, [])
 
     useEffect(() => {
-        if (user) {
+        if (user && localStorage.getItem("access_token")) {
             navigate('/dashboard')
         }
     }, [user]);
@@ -44,6 +44,7 @@ function Login() {
         })
     }
 
+    
     return <>
         <Grid
             container

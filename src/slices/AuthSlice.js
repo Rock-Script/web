@@ -26,6 +26,12 @@ export const verifyEmail = createAsyncThunk("auth/verifyEmail", async(payload, t
     return data?.data || {}
 });
 
+export const resendVerificationEmail = createAsyncThunk("auth/resendVerificationEmail", async(payload, thunkAPI) => {
+    const data = await AuthAPI.resendVerificationEmail(payload);
+    return data?.data || {}
+});
+
+
 const setUser = (state, action) => {
     state.user = action.payload;
     state.member = (action.payload.members || []).find(m => m.institute_id === localStorage.getItem('institute_id'))
@@ -43,7 +49,8 @@ const setTokens = (data, dispatch) => {
 const AuthSlice = createSlice({
     name: 'auth',
     initialState: {
-        user: null
+        user: null,
+        resent_verification_email: false
     },
     extraReducers: {
         [login.fulfilled](state, action) {
@@ -54,6 +61,12 @@ const AuthSlice = createSlice({
         },
         [verifyEmail.fulfilled](state, action) {
             setUser(state, action);
+        },
+        [register.fulfilled](state, action) {
+            setUser(state, action);
+        },
+        [resendVerificationEmail.fulfilled](state, action) {
+            state.resent_verification_email = true;
         }
     },
     reducers: {

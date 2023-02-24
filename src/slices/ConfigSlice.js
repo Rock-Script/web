@@ -3,6 +3,7 @@ import AuthAPI from "../services/AuthAPI";
 import ConfigAPI from '../services/ConfigAPI';
 import CourseAPI from "../services/CourseAPI";
 import RoleAPI from "../services/RoleAPI";
+import InstituteAPI from "../services/InstituteAPI";
 import { loginWithRefreshToken } from "./AuthSlice";
 
 export const getMicroservices = createAsyncThunk("config/getMicroservices", async(payload, thunkAPI) => {
@@ -26,6 +27,7 @@ const DialogSlice = createSlice({
             AuthAPI.base_url = store.microservices.auth;
             CourseAPI.base_url = store.microservices.exams;
             RoleAPI.base_url = store.microservices.auth;
+            InstituteAPI.base_url = store.microservices.institute;
         }
     }
 });

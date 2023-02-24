@@ -13,6 +13,7 @@ import ExamLogForm from '../components/exam-logs/ExamLogForm';
 import Role from '../components/admin/Role/Role';
 import RouteError from '../components/route/RouteError';
 import EmailVerify from '../components/auth/email-verify/EmailVerify';
+import PrivateRoutes from '../components/route/PrivateRoutes';
 
 const router = createBrowserRouter([
     {
@@ -32,53 +33,75 @@ const router = createBrowserRouter([
         element: <ForgotPassword></ForgotPassword>
     },
     {
-        path: '/signup_verify',
+        path: '/signup-verify',
         element: <EmailVerify></EmailVerify>
     },
     {
         path: '/dashboard',
-        element: <Dashboard></Dashboard>,
+        element: <PrivateRoutes>
+            <Dashboard></Dashboard>
+        </PrivateRoutes>,
         errorElement: <RouteError></RouteError>,
         children: [
             {
                 path: 'home',
-                element: <Home></Home>
+                element: <PrivateRoutes>
+                    <Home></Home>
+                </PrivateRoutes>
             },
             {
                 path: 'members',
-                element: <Members></Members>
+                element: <PrivateRoutes>
+                    <Members></Members>
+                </PrivateRoutes>
             }, 
             {
                 path: 'exams',
-                element: <Exams></Exams>
+                element: <PrivateRoutes>
+                    <Exams></Exams>
+                </PrivateRoutes>
             },
             {
                 path: 'exam-log/:exam_log_id',
-                element: <ExamLogForm></ExamLogForm>
+                element: <PrivateRoutes>
+                    <ExamLogForm></ExamLogForm>
+                </PrivateRoutes>
             },
             {
                 path: 'exam-log/:exam_id/:exam_log_id',
-                element: <ExamLogForm></ExamLogForm>
+                element: <PrivateRoutes>
+                    <ExamLogForm></ExamLogForm>
+                </PrivateRoutes>
             },
             {
                 path: 'exams/:exam_id',
-                element: <ExamForm></ExamForm>
+                element: <PrivateRoutes>
+                    <ExamForm></ExamForm>
+                </PrivateRoutes>
             },
             {
                 path: 'exams/course/:course_id',
-                element: <Exams></Exams>
+                element: <PrivateRoutes>
+                    <Exams></Exams>
+                </PrivateRoutes>
             },
             {
                 path: 'reports',
-                element: <Reports></Reports>
+                element: <PrivateRoutes>
+                    <Reports></Reports>
+                </PrivateRoutes>
             },
             {
                 path: 'admin',
-                element: <Admin></Admin>,
+                element: <PrivateRoutes>
+                    <Admin></Admin>
+                </PrivateRoutes>,
                 children: [
                     {
                         path: 'role',
-                        element: <Role></Role>
+                        element: <PrivateRoutes>
+                            <Role></Role>
+                        </PrivateRoutes>
                     }
                 ]
             },

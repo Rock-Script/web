@@ -2,15 +2,17 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { Grid, Stack, Button, TextField, Link, Typography } from '@mui/material';
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../../slices/AuthSlice';
 import { show } from '../../../slices/SnackbarSlice';
 import AlertServerities from '../../../constants/AlertSeverities';
 import { useState } from 'react';
+import { Box } from '@mui/system';
 
 function Register() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const user = useSelector(state => state.auth.user);
 
     const [form, setForm] = useState({
         first_name: "",
@@ -45,6 +47,12 @@ function Register() {
             ...form,
             [e.target.name]: e.target.value
         })
+    }
+
+    if (user && !user.email_verified) {
+        return <Box m={5}>
+            Please check you mailbox for verification email.
+        </Box>
     }
 
     return <>

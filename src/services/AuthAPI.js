@@ -25,10 +25,19 @@ class AuthAPI {
         return response.data;
     }
 
-
     async register(payload) {
         const config = {
            url: `${this.base_url}/auth/register`,
+           method: 'post',
+           data: payload
+        }
+        const response = await axios(config);
+        return response.data;
+    }
+
+    async resendVerificationEmail(payload) {
+        const config = {
+           url: `${this.base_url}/auth/resend_verification_email`,
            method: 'post',
            data: payload
         }
